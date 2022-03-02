@@ -52,13 +52,31 @@ def rotate_z(v, phi):
 this function outputs the results.
 The user has to specify a vector for the function.
 The rotation angles are theta (x-axis) and phi (z-axis)
+It aslo returns the calculation as numpy arrays
+which can be later fetched later
 '''
 def print_some_results(v, theta, phi):
 	rx = rotate_x(v, theta=theta)
 	rz = rotate_z(v, phi=phi)
+	rx_dot_rz = np.cross(rx, rz)
 	print('the original vector: ', v)
 	print('rotation around x axis: ', rx)
 	print('rotation around z axis: ', rz)
-	print('cross product of rotated vectors: ', np.cross(rx, rz))
+	print('cross product of rotated vectors: ', rx_dot_rz)
+	return rx, rz, rx_dot_rz
+
+'''
+This function writes the rotated vectors
+into files
+'''
+def write_the_results(fname, v, theta, phi):
+	rx, rz, rx_dot_rz = print_some_results(v, theta, phi)
+	np.savetxt(fname + '_rx' + '.txt', rx)
+	np.savetxt(fname + '_rz' + '.txt', rz)
+	#lets merge two data streams
+	m = rx, rz
+	np.savetxt(fname + '_merged' + '.txt', m)
+
+	
 
 
